@@ -1,13 +1,28 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>socrates-mommy</artifactId>
-    <groupId>oloboguara</groupId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <groupId>oloboguara</groupId>
-  <artifactId>socrates-core</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>Socrates Core</name>
-  <description>the core for the project purpose</description>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>socrates-mommy</artifactId>
+		<groupId>oloboguara</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>oloboguara</groupId>
+	<artifactId>socrates-core</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Socrates Core</name>
+	<description>the core for the project purpose</description>
+	<dependencies>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+	</dependencies>
 </project>
