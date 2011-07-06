@@ -1,0 +1,1 @@
+Socrates does the integration for validating beans using the same javascript for validation in presentation layer!
