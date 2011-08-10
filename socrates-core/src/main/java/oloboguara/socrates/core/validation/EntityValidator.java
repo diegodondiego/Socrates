@@ -3,6 +3,8 @@
  */
 package oloboguara.socrates.core.validation;
 
+import static java.lang.String.format;
+
 import java.lang.reflect.Field;
 
 import javax.script.ScriptEngine;
@@ -29,6 +31,12 @@ public enum EntityValidator {
 	 * This rule validates if ALL fields are not null.
 	 */
 	NOTHING_NULL {
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see oloboguara.socrates.core.validation.EntityValidator#validate(java.lang.Object)
+		 */
 		@Override
 		public EntityValidator validate(final Object entity) throws EntityValidationException {
 
@@ -39,11 +47,13 @@ public enum EntityValidator {
 				field.setAccessible(true);
 				try {
 					if (field.get(entity) == null) {
-						throw new IllegalArgumentException(String.format("The field [%s] of the object [%s] can't be null!", fieldName,
+						throw new IllegalArgumentException(format("The field [%s] of the object [%s] can't be null!", fieldName,
 								entitySimpleName));
 					}
 				} catch (final IllegalAccessException e) {
-					LOG.error(String.format("Error while accessing the field [%] of the entity [%]: %s", fieldName, entitySimpleName), e);
+					final String message = format("Error while accessing the field [%] of the entity [%]: %s", fieldName, entitySimpleName);
+					LOG.error(message, e);
+					throw new EntityValidationException(message, e);
 				}
 			}
 
@@ -51,9 +61,15 @@ public enum EntityValidator {
 		}
 	},
 	/**
-	 * This rules uses
+	 * This rules uses the validation passed as annotation parameter.
 	 */
 	FIELD_VALIDATION_WITH_ANNOTATION {
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see oloboguara.socrates.core.validation.EntityValidator#validate(java.lang.Object)
+		 */
 		@Override
 		public EntityValidator validate(final Object entity) throws EntityValidationException {
 
@@ -112,16 +128,16 @@ public enum EntityValidator {
 
 		final ScriptEngine engine = new ScriptEngineManager().getEngineByName(JS_SCRIPT_ENGINE_NAME);
 
-		final String eval = String.format(PATTERN_FOR_JS_EVAL_EXPR, jsEvalExpr);
+		final String eval = format(PATTERN_FOR_JS_EVAL_EXPR, jsEvalExpr);
 		final Object fieldValueInObject = getFieldValueInObject(entity, field);
 		engine.put(CONST_NAME_FOR_BINDING, fieldValueInObject == null ? null : fieldValueInObject.toString());
 		try {
 			if (!(Boolean) engine.eval(eval)) {
-				throw new IllegalArgumentException(String.format("The field [%s] of the object [%s] is not valid! "
+				throw new IllegalArgumentException(format("The field [%s] of the object [%s] is not valid! "
 						+ "The field must obey the rule [%s] with the value: [%s]", fieldName, entitySimpleName, eval, fieldValueInObject));
 			}
 		} catch (final ScriptException e) {
-			final String errMsg = String.format("Error while evaluating the expression [%] (where value = '%s') for the field [%s]"
+			final String errMsg = format("Error while evaluating the expression [%] (where value = '%s') for the field [%s]"
 					+ " of the entity [%]: %s", eval, fieldValueInObject, fieldName, entitySimpleName);
 			LOG.error(errMsg, e);
 			throw new EntityValidationException(errMsg, e);
@@ -142,7 +158,7 @@ public enum EntityValidator {
 		try {
 			return field.get(entity);
 		} catch (final IllegalAccessException e) {
-			final String errMsg = String.format("Error while accessing the field [%s] of the entity [%s]: %s", field.getName(), entity
+			final String errMsg = format("Error while accessing the field [%s] of the entity [%s]: %s", field.getName(), entity
 					.getClass().getSimpleName(), e.getMessage());
 			LOG.error(errMsg, e);
 			throw new EntityValidationException(errMsg, e);

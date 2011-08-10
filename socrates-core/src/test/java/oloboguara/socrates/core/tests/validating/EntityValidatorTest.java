@@ -61,17 +61,13 @@ public class EntityValidatorTest {
 	 * 
 	 * @throws EntityValidationException
 	 */
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testAnnotationWithNullValidation() throws EntityValidationException {
 
 		EntityTest test = new EntityTest("nem valida!", null, 1);
 
-		try {
-			EntityValidator.FIELD_VALIDATION_WITH_ANNOTATION.validate(test);
-			Assert.fail("validates object not nullable with null fields: " + test.toString());
-		} catch (IllegalArgumentException e) {
-			System.out.println("error: " + e.getMessage());
-		}
+		EntityValidator.FIELD_VALIDATION_WITH_ANNOTATION.validate(test);
+		Assert.fail("validates object not nullable with null fields: " + test.toString());
 	}
 
 	/**
@@ -79,22 +75,18 @@ public class EntityValidatorTest {
 	 * 
 	 * @throws EntityValidationException
 	 */
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testAnnotationWithWrongValidationForIntValue() throws EntityValidationException {
 
 		EntityTest test = new EntityTest("nem valida!", "validado", 5);
 
-		try {
-			EntityValidator.FIELD_VALIDATION_WITH_ANNOTATION.validate(test);
-			Assert.fail("validates object not nullable with null fields: " + test.toString());
-		} catch (IllegalArgumentException e) {
-			System.out.println("error: " + e.getMessage());
-		}
+		EntityValidator.FIELD_VALIDATION_WITH_ANNOTATION.validate(test);
+		Assert.fail("validates object not nullable with null fields: " + test.toString());
+
 	}
 
 	/**
-	 * Tests a simple validation js expression for a class with a nullable
-	 * field.
+	 * Tests a simple validation js expression for a class with a nullable field.
 	 * 
 	 * @throws EntityValidationException
 	 */
@@ -103,12 +95,8 @@ public class EntityValidatorTest {
 
 		EntityTest test = new EntityTest(null, "validado", 4);
 
-		try {
-			EntityValidator.FIELD_VALIDATION_WITH_ANNOTATION.validate(test);
-		} catch (IllegalArgumentException e) {
-			Assert.fail("validates object with nullable field as a nullable field: " + test.toString());
-			System.out.println("error: " + e.getMessage());
-		}
+		EntityValidator.FIELD_VALIDATION_WITH_ANNOTATION.validate(test);
+
 	}
 
 	/**
@@ -146,8 +134,8 @@ public class EntityValidatorTest {
 		 */
 		@Override
 		public String toString() {
-			return "EntityTest [intValidated=" + intValidated + ", strFieldNotValidated=" + strFieldNotValidated
-					+ ", strFieldValidated=" + strFieldValidated + "]";
+			return "EntityTest [intValidated=" + intValidated + ", strFieldNotValidated=" + strFieldNotValidated + ", strFieldValidated="
+					+ strFieldValidated + "]";
 		}
 
 	}

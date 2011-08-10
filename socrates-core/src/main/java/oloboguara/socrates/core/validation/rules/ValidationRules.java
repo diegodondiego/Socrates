@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
  * 
  * <b>REMEMBER</b>:
  * 
- * This evalution expressions shoud return boolean!
+ * This evaluation expressions shoud return boolean!
  * 
  * @author Diego Martins
  * @version 1.0
